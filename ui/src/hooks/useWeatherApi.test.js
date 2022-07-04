@@ -1,135 +1,162 @@
-import { useState } from 'react';
-import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
+import { renderHook, act, waitFor } from '@testing-library/react'
+
+import { WEATHER } from '../utils/constants';
 
 import useWeatherApi from './useWeatherApi';
 
-// TODO: Mock API
+global.fetch = jest.fn(() =>
+  Promise.resolve({
+    json: () => Promise.resolve(),
+  })
+);
+
 describe('useWeatherApi', () => {
-  const delay = 1;
+  const current = { sucess: true };
+  const daily = [
+    { sucess: true },
+    { failure: false },
+  ];
 
-  const WrapperComponent = () => {
-    const {
-      data,
-      error,
-      getLocationData,
-      getZipData,
-      loading,
-    } = useWeatherApi();
-
-    const [lat, setLat] = useState(0.0);
-    const [lon, setLon] = useState(0.0);
-    const [zip, setZip] = useState('');
-    const [locale, setLocale] = useState('');
-
-    const changeLat = ({ target } = {}) => setLat(target?.value ?? 0.0);
-    const changeLon = ({ target } = {}) => setLon(target?.value ?? 0.0);
-    const changeZip = ({ target } = {}) => setZip(target?.value ?? '');
-    const changeLocale = ({ target } = {}) => setLocale(target?.value ?? '');
-
-    return (
-      <div>
-        <span data-testid='data'>{JSON.stringify(data)}</span>
-        <span data-testid='error'>{error}</span>
-        <span data-testid='loading'>{`${loading}`}</span>
-        <input onChange={changeLat} placeholder="lat"/>
-        <input onChange={changeLon} placeholder="lon"/>
-        <input onChange={changeZip} placeholder="zip"/>
-        <input onChange={changeLocale} placeholder="locale"/>
-        <button onClick={() => getLocationData(lat, lon)}>getLocationData</button>
-        <button onClick={() => getZipData(zip, locale)}>getZipData</button>
-      </div>
-    );
+  const data = {
+    city: 'San Francisco',
+    country: 'US',
+    current,
+    daily,
   };
 
+  const errorKey = 'errorKey';
+
+  beforeEach(() => {
+    jest.resetAllMocks();
+  });
+
+  afterAll(() => {
+    fetch.mockClear();
+  });
+
   it('Returns empty data, loading and error false initially', () => {
-    render(<WrapperComponent />);
+    const { result } = renderHook(() => useWeatherApi());
 
-    expect(screen.getByTestId('data')).toHaveTextContent('{}');
-    expect(screen.getByTestId('error')).toHaveTextContent('');
-    expect(screen.getByTestId('loading')).toHaveTextContent('false');
+    expect(result.current.city).toEqual('');
+    expect(result.current.country).toEqual('');
+    expect(result.current.current).toEqual({});
+    expect(result.current.daily).toHaveLength(0);
+    expect(result.current.error).toEqual('');
+    expect(result.current.getLocationData).not.toBeNull();
+    expect(result.current.getZipData).not.toBeNull();
+    expect(result.current.loading).toBeFalsy();
   });
 
-  // TODO: Await API
-  // TODO: Check loading change
   it('Calls getLocationData with lat and lon', async () => {
-    render(<WrapperComponent />);
-    const lat = screen.getByPlaceholderText('lat');
-    const lon = screen.getByPlaceholderText('lon');
-    const locationButton = screen.getByText('getLocationData');
+    fetch.mockReturnValueOnce(
+      Promise.resolve({
+        json: () => Promise.resolve(data),
+      })
+    );
 
-    await userEvent.type(lat, '0.0', { delay });
-    await userEvent.type(lon, '0.0', { delay });
+    const { result } = renderHook(() => useWeatherApi());
 
-    userEvent.click(locationButton);
-    expect(screen.getByTestId('data')).toHaveTextContent('{}');
-    expect(screen.getByTestId('error')).toHaveTextContent('');
-    expect(screen.getByTestId('loading')).toHaveTextContent('false');
+    act(() => {
+      result.current.getLocationData(1, 1, '');
+    });
+    expect(result.current.loading).toBeTruthy();
+
+    await waitFor(() => expect(result.current.city).toEqual(data.city));
+    expect(result.current.country).toEqual(data.country);
+    expect(result.current.current).toEqual(current);
+
+    expect(result.current.daily).toEqual(daily);
+    expect(result.current.error).toEqual('');
+    expect(result.current.loading).toBeFalsy();
   });
 
-
-  // TODO: Await API
-  // TODO: Check loading change
   it('Calls getZipData with zip and locale', async () => {
-    render(<WrapperComponent />);
-    const zip = screen.getByPlaceholderText('zip');
-    const locale = screen.getByPlaceholderText('locale');
-    const zipButton = screen.getByText('getZipData');
+    fetch.mockReturnValueOnce(
+      Promise.resolve({
+        json: () => Promise.resolve(data),
+      })
+    );
 
-    await userEvent.type(zip, '98001', { delay });
-    await userEvent.type(locale, 'US', { delay });
+    const { result } = renderHook(() => useWeatherApi());
 
-    userEvent.click(zipButton);
-    expect(screen.getByTestId('data')).toHaveTextContent('{}');
-    expect(screen.getByTestId('error')).toHaveTextContent('');
-    expect(screen.getByTestId('loading')).toHaveTextContent('false');
+    act(() => {
+      result.current.getZipData('', '', '');
+    });
+    expect(result.current.loading).toBeTruthy();
+
+    await waitFor(() => expect(result.current.city).toEqual(data.city));
+    expect(result.current.country).toEqual(data.country);
+    expect(result.current.current).toEqual(current);
+
+    expect(result.current.daily).toEqual(daily);
+    expect(result.current.error).toEqual('');
+    expect(result.current.loading).toBeFalsy();
   });
 
-  // TODO: Await API
-  // TODO: Check loading change
-  // TODO: Mock API Error
-  it('Returns error with invalid lat or lon', async () => {
-    render(<WrapperComponent />);
-    const lat = screen.getByPlaceholderText('lat');
-    const lon = screen.getByPlaceholderText('lon');
-    const locationButton = screen.getByText('getLocationData');
+  it('Returns error from API if provided', async () => {
+    fetch.mockReturnValueOnce(
+      Promise.resolve({
+        status: 500,
+        json: () => Promise.resolve({ errorKey }),
+      })
+    );
+    const { result } = renderHook(() => useWeatherApi());
 
-    await userEvent.type(lat, '0.0', { delay });
-    userEvent.click(locationButton);
+    act(() => {
+      result.current.getZipData('', '', '');
+    });
+    expect(result.current.loading).toBeTruthy();
 
-    expect(screen.getByTestId('data')).toHaveTextContent('{}');
-    expect(screen.getByTestId('error')).toHaveTextContent('');
-    expect(screen.getByTestId('loading')).toHaveTextContent('false');
-
-    await userEvent.type(lon, '0.0', { delay });
-    userEvent.click(locationButton);
-
-    expect(screen.getByTestId('data')).toHaveTextContent('{}');
-    expect(screen.getByTestId('error')).toHaveTextContent('');
-    expect(screen.getByTestId('loading')).toHaveTextContent('false');
+    await waitFor(() => expect(result.current.loading).toBeFalsy());
+    expect(result.current.error).toEqual(errorKey);
   });
 
-  // TODO: Await API
-  // TODO: Check loading change
-  // TODO: Mock API Error
-  it('Returns error with invalid zip or locale', async () => {
-    render(<WrapperComponent />);
-    const zip = screen.getByPlaceholderText('zip');
-    const locale = screen.getByPlaceholderText('zip');
-    const zipButton = screen.getByText('getZipData');
+  it('Returns error from API if request was malformed', async () => {
+    fetch.mockReturnValueOnce(
+      Promise.resolve({
+        status: 400,
+        json: () => Promise.resolve({ errorKey }),
+      })
+    );
+    const { result } = renderHook(() => useWeatherApi());
 
-    await userEvent.type(zip, '98001', { delay });
-    userEvent.click(zipButton);
+    act(() => {
+      result.current.getZipData('', '', '');
+    });
+    expect(result.current.loading).toBeTruthy();
 
-    expect(screen.getByTestId('data')).toHaveTextContent('{}');
-    expect(screen.getByTestId('error')).toHaveTextContent('');
-    expect(screen.getByTestId('loading')).toHaveTextContent('false');
+    await waitFor(() => expect(result.current.loading).toBeFalsy());
+    expect(result.current.error).toEqual(errorKey);
+  });
 
-    await userEvent.type(locale, 'US', { delay });
-    userEvent.click(zipButton);
+  it('Returns generic error if API does not provide it', async () => {
+    fetch.mockReturnValueOnce(
+      Promise.resolve({
+        status: 500,
+        json: () => Promise.resolve(),
+      })
+    );
+    const { result } = renderHook(() => useWeatherApi());
 
-    expect(screen.getByTestId('data')).toHaveTextContent('{}');
-    expect(screen.getByTestId('error')).toHaveTextContent('');
-    expect(screen.getByTestId('loading')).toHaveTextContent('false');
+    act(() => {
+      result.current.getZipData('', '', '');
+    });
+    expect(result.current.loading).toBeTruthy();
+
+    await waitFor(() => expect(result.current.loading).toBeFalsy());
+    expect(result.current.error).toEqual(WEATHER.genericError);
+  });
+
+  it('Returns generic error if something fails', async () => {
+    global.fetch.mockRejectedValue(() => Promise.reject());
+    const { result } = renderHook(() => useWeatherApi());
+
+    act(() => {
+      result.current.getZipData('', '', '');
+    });
+    expect(result.current.loading).toBeTruthy();
+
+    await waitFor(() => expect(result.current.loading).toBeFalsy());
+    expect(result.current.error).toEqual(WEATHER.genericError);
   });
 });

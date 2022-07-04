@@ -1,4 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+
+import { LOCALE } from '../utils/constants';
 
 /**
  * @typedef {Object} Locale
@@ -12,8 +14,19 @@ import { useState } from 'react';
  * @return {Locale}
  */
 const useLocale = () => {
-  // TODO: Get locale
-  const [locale, setLocale] = useState('US');
+  const [locale, setLocale] = useState(LOCALE.default);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await fetch(`${LOCALE.url}?key=${LOCALE.key}`);
+        const data = await response.json();
+        setLocale(data?.location?.country?.code ?? LOCALE.default);
+      } catch {
+        setLocale(LOCALE.default);
+      }
+    })();
+  }, []);
 
   return {
     locale,

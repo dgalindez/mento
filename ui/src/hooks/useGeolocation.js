@@ -1,4 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+
+import { GEOLOCATION } from '../utils/constants';
 
 /**
  * @typedef {Object} Geolocation
@@ -13,11 +15,31 @@ import { useState } from 'react';
  * @return {Geolocation}
  */
 const useGeolocation = () => {
-  // TODO: Get geoloc
-  // TODO: Failed logic
-  const [lat, setLat] = useState(0.0);
-  const [lon, setLon] = useState(0.0);
+  const [lat, setLat] = useState(GEOLOCATION.defaultLatitude);
+  const [lon, setLon] = useState(GEOLOCATION.defaultLongitude);
   const [failed, setFailed] = useState(false);
+
+  const success = ({ coords }) => {
+    setLat(coords.latitude);
+    setLon(coords.longitude);
+    setFailed(false);
+  };
+
+  const failure = () => {
+    setLat(GEOLOCATION.defaultLatitude);
+    setLon(GEOLOCATION.defaultLongitude);
+    setFailed(true);
+  };
+
+  useEffect(() => {
+    if ('geolocation' in navigator) {
+      const watchId = navigator?.geolocation?.watchPosition(success, failure);
+      return () => navigator?.geolocation?.clearWatch(watchId);
+    }
+
+    failure();
+    return;
+  }, []);
 
   return {
     lat,
