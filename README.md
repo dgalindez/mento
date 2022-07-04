@@ -1,35 +1,61 @@
-# TODO
+# Weather APP
+Project was built with React for the UI and NodeJS with Express for the API.
+API requires `Node 18`.
 
-* Dockerize for ease of use
+## Running
 
-## BE
+### Docker
 
-### TODO
+TODO: WRITE ME
 
-* Write failing tests
-* Params validation
-* API request to Google Maps
-* API request to Weather API
-* CORS
-* Decide on format for response object
+### Locally
 
-### Document
+1. Install [nvm](https://github.com/nvm-sh/nvm)
+2. Install Node 18 (`nvm install 18; nvm use 18`)
+3. Optionally, install [yarn](https://classic.yarnpkg.com/lang/en/docs/install/#debian-stable)
+4. Go into the api folder
+5. Run `yarn install` or `npm install`
+6. Run `yarn start` or `npm start`
+7. Go into the ui folder
+8. Run `yarn install` or `npm install`
+9. Run `yarn start` or `npm start`
 
-* Commands to generate documentation
-* Commands to test
-* Commands to start
-* ENV needed (API keys)
-* Format for successful response
-* Failed responses
-* Assumptions:
-  * ZIPs are not worldwide unique so we need locale
-  * Using Google Maps API to convert ZIP to lat/lon
-* Validations:
-  * If lat or lon is provided, the other is needed
-  * If zip is provided, locale is needed
-  * Units is one of standard, metric or imperial
-* Defaults:
-  * Units default to standard
+#### Troubleshooting
+
+If the `install` step failed, make sure you are using `Node 18` (`node -v`)
+
+## API
+
+This is the service that wraps the Weather API.
+
+* It allows specifying units to use, the default is 'standard'
+* Units can be standard, metric or imperial
+
+It also uses another API to obtain lat/lon from ZIP codes.
+
+* Since ZIP codes are not worldwide unique, locale is passed when needed
+* Locale can be provided by the user
+
+The service requires Node 18 due to `fetch` api being used.
+
+### Validations
+
+* If Latitude or Longitude are provided, the other is required
+  * Latitude and longitude are checked to _look_ like floats, due to JS's `parseFloat`
+    * This means that `1234abcd` parses to 1234
+* If ZIP code is provided, locale is considered required
+  * For both we only check that they are non-empty strings
+
+### Testing
+
+We are using `jest` to test.
+To run the tests:
+
+1. `yarn install` or `npm install`
+2. `yarn test`
+
+#### Troubleshooting
+If the `install` step failed, make sure you are using `Node 18`
 
 ### Tools
 

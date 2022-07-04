@@ -49,10 +49,54 @@ const weatherApi = require('../utils/weatherApi');
  *            schema:
  *              type: object
  *              properties:
- *                TODO:
+ *                city:
  *                  type: string
- *                  description: Some TODO string
- *                  example: "SOME STRING"
+ *                  description: City name
+ *                  example: "Seattle"
+ *                country:
+ *                  type: string
+ *                  description: Country code
+ *                  example: "US"
+ *                current:
+ *                  type: object
+ *                  properties:
+ *                    feelsLike:
+ *                      type: number
+ *                      description: Current temperature sensation
+ *                      example: 50
+ *                    humidity:
+ *                      type: number
+ *                      description: Current humidity
+ *                      example: 120
+ *                    max:
+ *                      type: number
+ *                      description: Max temperature for today
+ *                      example: 60
+ *                    min:
+ *                      type: number
+ *                      description: Min temperature for today
+ *                      example: 40
+ *                    temperature:
+ *                      type: number
+ *                      description: Current temperature
+ *                      example: 53
+ *                daily:
+ *                  type: array
+ *                  items:
+ *                    type: object
+ *                    properties:
+ *                      date:
+ *                        type: string
+ *                        description: UTC string representing the day
+ *                        example: Sun, 03 Jul 2022 00:00:00 GMT
+ *                      max:
+ *                        type: number
+ *                        description: Max temperature for the day
+ *                        example: 60
+ *                      min:
+ *                        type: number
+ *                        description: Min temperature for the day
+ *                        example: 40
  *      400:
  *        description: Request failed validations
  *        content:
@@ -64,6 +108,17 @@ const weatherApi = require('../utils/weatherApi');
  *                  type: string
  *                  description: Error describing the failed validations
  *                  example: "lat and lon or zip and locale are required"
+ *      500:
+ *        description: Request to another API failed
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                error:
+ *                  type: string
+ *                  description: Error describing the API that failed
+ *                  example: "Could not get lat/lon for ZIP and locale provided"
  *
  */
 router.get('/', async (req, res, _) => {
