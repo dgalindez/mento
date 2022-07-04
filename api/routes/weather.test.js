@@ -136,7 +136,7 @@ describe(`GET ${path}`, () => {
       .query({});
 
     expect(res.statusCode).toEqual(400);
-    expect(res.body?.error).toEqual(ERRORS.weather.noParams);
+    expect(res.body?.error).toEqual(ERRORS.weatherApi.noParams);
   });
 
   it('should fail if lat is valid and lon is not', async () => {
@@ -148,7 +148,8 @@ describe(`GET ${path}`, () => {
       });
 
     expect(res.statusCode).toEqual(400);
-    expect(res.body?.error).toEqual(ERRORS.weather.noParams);
+    expect(res.body?.error).toEqual(ERRORS.weatherApi.noParams);
+    expect(res.body?.errorKey).toEqual(ERRORS.weatherApi.noParamsKey);
   });
 
   it('should fail if lon is valid and lat is not', async () => {
@@ -160,7 +161,8 @@ describe(`GET ${path}`, () => {
       });
 
     expect(res.statusCode).toEqual(400);
-    expect(res.body?.error).toEqual(ERRORS.weather.noParams);
+    expect(res.body?.error).toEqual(ERRORS.weatherApi.noParams);
+    expect(res.body?.errorKey).toEqual(ERRORS.weatherApi.noParamsKey);
   });
 
   it('should fail if zip is valid and locale is not', async () => {
@@ -172,7 +174,8 @@ describe(`GET ${path}`, () => {
       });
 
     expect(res.statusCode).toEqual(400);
-    expect(res.body?.error).toEqual(ERRORS.weather.locale);
+    expect(res.body?.error).toEqual(ERRORS.weatherApi.locale);
+    expect(res.body?.errorKey).toEqual(ERRORS.weatherApi.localeKey);
   });
 
   it('should fail if locale is valid and zip is not', async () => {
@@ -184,7 +187,8 @@ describe(`GET ${path}`, () => {
       });
 
     expect(res.statusCode).toEqual(400);
-    expect(res.body?.error).toEqual(ERRORS.weather.noParams);
+    expect(res.body?.error).toEqual(ERRORS.weatherApi.noParams);
+    expect(res.body?.errorKey).toEqual(ERRORS.weatherApi.noParamsKey);
   });
 
   it('should fail if units is not valid', async () => {
@@ -196,7 +200,8 @@ describe(`GET ${path}`, () => {
       });
 
     expect(res.statusCode).toEqual(400);
-    expect(res.body?.error).toEqual(ERRORS.weather.units);
+    expect(res.body?.error).toEqual(ERRORS.weatherApi.units);
+    expect(res.body?.errorKey).toEqual(ERRORS.weatherApi.unitsKey);
   });
 
   it('should fail if locationApi fails', async () => {
@@ -207,7 +212,8 @@ describe(`GET ${path}`, () => {
       .query(validZipQuery);
 
     expect(res.statusCode).toEqual(500);
-    expect(res.body?.error).toEqual(ERRORS.weather.locationApi);
+    expect(res.body?.error).toEqual(ERRORS.weatherApi.locationApi);
+    expect(res.body?.errorKey).toEqual(ERRORS.weatherApi.locationApiKey);
   });
 
   it('should fail if locationApi returns empty', async () => {
@@ -220,7 +226,8 @@ describe(`GET ${path}`, () => {
       .query(validZipQuery);
 
     expect(res.statusCode).toEqual(500);
-    expect(res.body?.error).toEqual(ERRORS.weather.locationApi);
+    expect(res.body?.error).toEqual(ERRORS.weatherApi.locationApi);
+    expect(res.body?.errorKey).toEqual(ERRORS.weatherApi.locationApiKey);
   });
 
   it('should fail if weatherApi fails', async () => {
@@ -231,6 +238,7 @@ describe(`GET ${path}`, () => {
       .query(validLocationQuery);
 
     expect(res.statusCode).toEqual(500);
-    expect(res.body?.error).toEqual(ERRORS.weather.weatherApi);
+    expect(res.body?.error).toEqual(ERRORS.weatherApi.weatherApi);
+    expect(res.body?.errorKey).toEqual(ERRORS.weatherApi.weatherApiKey);
   });
 });

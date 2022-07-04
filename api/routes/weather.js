@@ -3,6 +3,7 @@ const router = express.Router();
 
 const { UNITS, ERRORS } = require('../utils/constants');
 
+const buildError = require('../utils/buildError');
 const cleanData = require('../utils/cleanData');
 const locationApi = require('../utils/locationApi');
 const validateLocation = require('../utils/validateLocation');
@@ -108,6 +109,9 @@ const weatherApi = require('../utils/weatherApi');
  *                  type: string
  *                  description: Error describing the failed validations
  *                  example: "lat and lon or zip and locale are required"
+ *                errorKey:
+ *                  type: string
+ *                  description: Key for i18n on the UI
  *      500:
  *        description: Request to another API failed
  *        content:
@@ -119,6 +123,9 @@ const weatherApi = require('../utils/weatherApi');
  *                  type: string
  *                  description: Error describing the API that failed
  *                  example: "Could not get lat/lon for ZIP and locale provided"
+ *                errorKey:
+ *                  type: string
+ *                  description: Key for i18n on the UI
  *
  */
 router.get('/', async (req, res, _) => {
@@ -139,18 +146,18 @@ router.get('/', async (req, res, _) => {
   let actualLon = location.lon;
 
   if (!isValidZip && !location.isValid) {
-    res.status(400).json({ error: ERRORS.weather.noParams });
+    res.status(400).json(buildError(ERRORS.weatherApi.noParamsKey));
     return;
   }
 
   if (!validUnits) {
-    res.status(400).json({ error: ERRORS.weather.units });
+    res.status(400).json(buildError(ERRORS.weatherApi.unitsKey));
     return;
   }
 
   if (isValidZip && !location.isValid) {
     if (!isValidLocale) {
-      res.status(400).json({ error: ERRORS.weather.locale });
+      res.status(400).json(buildError(ERRORS.weatherApi.localeKey));
       return;
     }
 
@@ -158,14 +165,14 @@ router.get('/', async (req, res, _) => {
       const data = await locationApi(zip, locale);
 
       if (!data?.postalcodes?.length) {
-        res.status(500).json({ error: ERRORS.weather.locationApi });
+        res.status(500).json(buildError(ERRORS.weatherApi.locationApiKey));
         return;
       }
 
       actualLat = data.postalcodes[0].lat;
       actualLon = data.postalcodes[0].lng;
     } catch {
-      res.status(500).json({ error: ERRORS.weather.locationApi });
+      res.status(500).json(buildError(ERRORS.weatherApi.locationApiKey));
       return;
     };
   }
@@ -174,7 +181,7 @@ router.get('/', async (req, res, _) => {
     const data = await weatherApi(actualLat, actualLon, units);
     res.status(200).json(cleanData(data));
   } catch {
-    res.status(500).json({ error: ERRORS.weather.weatherApi });
+    res.status(500).json(buildError(ERRORS.weatherApi.weatherApiKey));
   };
 });
 

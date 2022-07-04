@@ -7,12 +7,17 @@ const UNITS = {
 
 // Errors returned by routes
 const ERRORS = {
-  weather: {
+  weatherApi: {
     locale: 'locale is required',
+    localeKey: 'weatherApi.locale',
     locationApi: 'Could not get lat/lon for ZIP and locale provided',
+    locationApiKey: 'weatherApi.locationApi',
     noParams: 'lat and lon or zip and locale are required',
+    noParamsKey: 'weatherApi.noParams',
     units: 'units needs to be standard, metric or imperial',
+    unitsKey: 'weatherApi.units',
     weatherApi: 'Could not get weather data, please try again later',
+    weatherApiKey: 'weatherApi.weatherApi',
   }
 };
 
