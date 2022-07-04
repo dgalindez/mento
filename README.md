@@ -1,12 +1,24 @@
 # Weather APP
+
 Project was built with React for the UI and NodeJS with Express for the API.
 API requires `Node 18`.
+
+## TODO
+
+* Context to use hooks (locale/geolocation)
+* Data section for main page
+* Sections for Details Page (Today in depth, 8 day)
+* Connect to API
+* Styling
+* Snapshot tests
+* Dockerize
+* Add Docker section to docs
 
 ## Running
 
 ### Docker
 
-TODO: WRITE ME
+TODO: Write me
 
 ### Locally
 
@@ -28,13 +40,17 @@ If the `install` step failed, make sure you are using `Node 18` (`node -v`)
 
 This is the service that wraps the Weather API.
 
-* It allows specifying units to use, the default is 'standard'
-* Units can be standard, metric or imperial
+* It allows specifying units to use
+  * Default is 'standard'
+  * Units can be standard, metric or imperial
 
 It also uses another API to obtain lat/lon from ZIP codes.
 
 * Since ZIP codes are not worldwide unique, locale is passed when needed
 * Locale can be provided by the user
+
+It is assuming the first datum returned from the Weather API represents
+"today's" weather
 
 The service requires Node 18 due to `fetch` api being used.
 
@@ -55,6 +71,7 @@ To run the tests:
 2. `yarn test`
 
 #### Troubleshooting
+
 If the `install` step failed, make sure you are using `Node 18`
 
 ### Tools
@@ -62,30 +79,31 @@ If the `install` step failed, make sure you are using `Node 18`
 * Swagger (documentation)
 * Express
 * Jest (testing)
-* JSDoc (function documentation)
 
 ## UI
 
-### TODO
+This is the UI to display weather data.
 
-* Write failing tests
-* Context to use hooks (locale/geolocation)
-* Data section for main page
-* Sections for Details Page (Today in depth, 8 day)
-* Connect to API
-* Styling
-* Snapshot tests
+* It allows specifying units to use
+  * Units can be standard, metric or imperial
+  * Default is 'standard'
+* Uses the browser's location data
+  * If it is unavailable it will default to San Francisco, US
+* Uses the browser's locale data
+  * If it is unavailable it will default to 'US'
 
-### Document
+I18N was added since the beginning since:
+1. It helps avoid magic strings
+2. Makes testing a lot easier
+3. Is simple to add early, but harder to add late
 
-* Commands to test
-* Commands to start
-* Why use i18n from the start
-* Folder structure/hierarchy
-* ENV needed (API URL)
-* Defaults:
-  * If geolocation is blocked/unavailable SF is used as the default
-  * Locale is defaulted to user's locale
+### Testing
+
+We are using `jest` to test.
+To run the tests:
+
+1. `yarn install` or `npm install`
+2. `yarn test`
 
 ### Tools
 
@@ -93,4 +111,3 @@ If the `install` step failed, make sure you are using `Node 18`
 * react-i18n (internationalization)
 * Bulma (CSS framework)
 * Jest (testing)
-* JSDoc (function documentation)

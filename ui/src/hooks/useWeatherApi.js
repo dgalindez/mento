@@ -1,5 +1,6 @@
-import { useState } from 'react';
 /** @namespace WeatherApi */
+import { useState } from 'react';
+
 /**
  * @typedef {Object} Data
  * @property {Data} - String locale
