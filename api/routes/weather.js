@@ -1,9 +1,13 @@
 const express = require('express');
 const router = express.Router();
 
-const { UNITS } = require('../utils/constants');
+const { UNITS, ERRORS } = require('../utils/constants');
+
+const cleanData = require('../utils/cleanData');
+const locationApi = require('../utils/locationApi');
 const validateLocation = require('../utils/validateLocation');
 const validateUnits = require('../utils/validateUnits');
+const weatherApi = require('../utils/weatherApi');
 
 /**
  * @swagger
@@ -49,10 +53,27 @@ const validateUnits = require('../utils/validateUnits');
  *                  type: string
  *                  description: Some TODO string
  *                  example: "SOME STRING"
-  *
-  */
-router.get('/', function(req, res, _) {
-  const { lat, lon, zip, locale, units = UNITS.standard } = req.query;
+ *      400:
+ *        description: Request failed validations
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                error:
+ *                  type: string
+ *                  description: Error describing the failed validations
+ *                  example: "lat and lon or zip and locale are required"
+ *
+ */
+router.get('/', async (req, res, _) => {
+  const {
+    lat,
+    lon,
+    zip,
+    locale,
+    units = UNITS.standard,
+  } = req?.query ?? {};
 
   const location = validateLocation(lat, lon);
   const validUnits = validateUnits(units);
@@ -63,27 +84,43 @@ router.get('/', function(req, res, _) {
   let actualLon = location.lon;
 
   if (!isValidZip && !location.isValid) {
-      res.status(400).send("Lat and Lon or Zip and Locale are required");
-      return;
+    res.status(400).json({ error: ERRORS.weather.noParams });
+    return;
   }
 
   if (!validUnits) {
-      res.status(400).send("Units needs to be standard, metric or imperial");
-      return;
+    res.status(400).json({ error: ERRORS.weather.units });
+    return;
   }
 
   if (isValidZip && !location.isValid) {
     if (!isValidLocale) {
-      res.status(400).send("Locale is required");
+      res.status(400).json({ error: ERRORS.weather.locale });
       return;
     }
-    // TODO: Make Maps API call to get lat/lon, use zip, locale
-    // update actualLat and actualLon
+
+    try {
+      const data = await locationApi(zip, locale);
+
+      if (!data?.postalcodes?.length) {
+        res.status(500).json({ error: ERRORS.weather.locationApi });
+        return;
+      }
+
+      actualLat = data.postalcodes[0].lat;
+      actualLon = data.postalcodes[0].lng;
+    } catch {
+      res.status(500).json({ error: ERRORS.weather.locationApi });
+      return;
+    };
   }
 
-  // TODO: Make API call using actualLat, actualLon, units
-
-  res.status(200).send("Ok");
+  try {
+    const data = await weatherApi(actualLat, actualLon, units);
+    res.status(200).json(cleanData(data));
+  } catch {
+    res.status(500).json({ error: ERRORS.weather.weatherApi });
+  };
 });
 
 module.exports = router;
