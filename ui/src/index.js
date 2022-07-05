@@ -15,9 +15,11 @@ import reportWebVitals from './reportWebVitals';
 
 import { ContextComponent } from './components/AppContext';
 import Banner from './components/Banner';
-import Details from './components/Details';
 import Home from './components/Home';
+import Humidity from './components/Humidity';
 import LocationInput from './components/LocationInput';
+import Sensation from './components/Sensation';
+import Temperature from './components/Temperature';
 
 i18n
   .use(initReactI18next)
@@ -37,13 +39,16 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <ContextComponent>
     <Banner />
-    <LocationInput />
     <BrowserRouter>
+      <Home />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/details" element={<Details />} />
+        <Route path="/" element={<Temperature />} />
+        <Route path="/humidity" element={<Humidity />} />
+        <Route path="/sensation" element={<Sensation />} />
+        <Route path="/temperature" element={<Temperature />} />
       </Routes>
     </BrowserRouter>
+    <LocationInput />
   </ContextComponent>
 );
 

@@ -1,12 +1,10 @@
-import { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useContext } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 import AppContext from '../AppContext';
 
-import HumidityTab from './HumidityTab';
-import SensationTab from './SensationTab';
-import TemperatureTab from './TemperatureTab';
+import Forecast from './Forecast';
 
 import './index.css';
 
@@ -21,13 +19,12 @@ const Home = () => {
     },
   } = useContext(AppContext);
 
-  const [active, setActive] = useState(0);
-  const tabs = ['temperature', 'sensation', 'humidity'];
-  const changeTab = (index) => setActive(index);
+  const tabs = ['/temperature', '/sensation', '/humidity'];
+  const { pathname = '' } = useLocation();
 
   if (error || loading) {
     return (
-      <div className="columns">
+      <div className="columns" role="heading" aria-level="1">
         <div className="control is-large is-loading">
           <input className="hidden" />
         </div>
@@ -37,27 +34,25 @@ const Home = () => {
 
   return (
     <>
-      <div className="tabs is-boxed m-4 mx-6">
+      <div className="tabs is-boxed is-large mt-4 mx-6" role="heading" aria-level="1">
         <ul>
           {tabs.map((tab, index) => (
-            <li className={active === index ? 'is-active' : ''} key={`tab-${index}`}>
+            <li className={pathname.includes(tab) ? 'is-active' : ''} key={`tab-${index}`}>
               {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-              <a onClick={() => changeTab(index)}>
-                {t(`home.tab.${tab}`)}
-              </a>
+              <Link to={tab}>
+                {t(`home.tab.${tab.substring(1)}`)}
+              </Link>
             </li>
           ))}
         </ul>
       </div>
-      <Link to="/details">
-        <div className="m-4 mx-6">
+      <div className="columns mx-6">
+        <div className="column">
           <span className="title">{city}, </span>
           <span className="subtitle">{country}</span>
         </div>
-        {active === 0 && <TemperatureTab />}
-        {active === 1 && <SensationTab />}
-        {active === 2 && <HumidityTab />}
-      </Link>
+        <Forecast />
+      </div>
     </>
   );
 };

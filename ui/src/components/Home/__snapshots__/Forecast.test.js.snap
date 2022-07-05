@@ -1,0 +1,106 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Forecast renders correctly 1`] = `
+<table
+  class="table m-4 mx-6"
+>
+  <thead>
+    <tr>
+      <th>
+        forecast.date
+      </th>
+      <th>
+        forecast.max
+         / 
+        forecast.min
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        7/5/2022
+      </td>
+      <td>
+        22.35
+         
+        ℃
+         / 
+        14.75
+         
+        ℃
+      </td>
+    </tr>
+    <tr>
+      <td>
+        7/5/2022
+      </td>
+      <td>
+        22.04
+         
+        ℃
+         / 
+        13.8
+         
+        ℃
+      </td>
+    </tr>
+    <tr>
+      <td>
+        7/6/2022
+      </td>
+      <td>
+        21.08
+         
+        ℃
+         / 
+        12.85
+         
+        ℃
+      </td>
+    </tr>
+    <tr>
+      <td>
+        7/7/2022
+      </td>
+      <td>
+        24.47
+         
+        ℃
+         / 
+        12.91
+         
+        ℃
+      </td>
+    </tr>
+    <tr>
+      <td>
+        7/8/2022
+      </td>
+      <td>
+        25.43
+         
+        ℃
+         / 
+        13.72
+         
+        ℃
+      </td>
+    </tr>
+    <tr>
+      <td>
+        7/9/2022
+      </td>
+      <td>
+        21.71
+         
+        ℃
+         / 
+        17.79
+         
+        ℃
+      </td>
+    </tr>
+  </tbody>
+</table>
+`;

@@ -7,7 +7,7 @@ export const ENGLISH = {
       },
     },
   },
-  details: {
+  forecast: {
     date: 'Date',
     max: 'Max',
     min: 'Min',
