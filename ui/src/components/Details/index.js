@@ -1,7 +1,6 @@
 import { useContext, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 
 import { UNIT_SYMBOLS } from '../../utils/constants';
 import AppContext from '../AppContext';
@@ -31,7 +30,7 @@ const Details = () => {
 
   if (error || loading) {
     return (
-      <div className="columns">
+      <div className="columns" role="main">
         <div className="control is-large is-loading">
           <input className="hidden" />
         </div>
@@ -40,7 +39,7 @@ const Details = () => {
   }
 
   return (
-    <div className="m-4 mx-6">
+    <div className="m-4 mx-6" role="main">
       <Link to="/">
         <span className="icon is-large">
           <i className="fas fa-arrow-left" />

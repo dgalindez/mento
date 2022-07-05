@@ -1,5 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { render, screen, waitFor } from '@testing-library/react';import userEvent from '@testing-library/user-event';
 import { I18nextProvider } from 'react-i18next';
 
 import i18n from '../../utils/i18nTestHelper';
