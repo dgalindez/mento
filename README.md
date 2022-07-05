@@ -2,21 +2,13 @@
 
 Project was built with React for the UI and NodeJS with Express for the API.
 API requires `Node 18`.
-
-## TODO
-
-* Context to use hooks (locale/geolocation)
-* Data section for main page
-* Sections for Details Page (Today in depth, 8 day)
-* Connect to API
-* Styling
-* Snapshot tests
-* Dockerize
-* Add Docker section to docs
-
 ## Running
 
 ### Docker
+
+1. Install [Docker](https://docs.docker.com/engine/install/)
+2. Run `docker-compose up`
+3. UI is available in port 3001, API is available in port 3000
 
 TODO: Write me
 
@@ -84,6 +76,8 @@ If the `install` step failed, make sure you are using `Node 18`
 
 This is the UI to display weather data.
 
+* It is an SPA so while each "tab" is a separate page, there is no actual navigation
+  * This is internally handled by React's router
 * It allows specifying units to use
   * Units can be standard, metric or imperial
   * Default is 'standard'
