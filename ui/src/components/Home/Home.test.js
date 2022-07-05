@@ -12,7 +12,7 @@ let mockPathname = '';
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useLocation: () => ({ pathname: mockPathname })
- }));
+}));
 
 describe('Home', () => {
   let contextData = {};
@@ -91,27 +91,17 @@ describe('Home', () => {
     expect(screen.getByRole('heading')).toMatchSnapshot();
   })
 
-  it('renders loading if data is being fetched', () => {
-    contextData.weather.loading = true;
+  it('renders no city or country if not present', () => {
+    contextData.weather.city = '';
+    contextData.weather.country = '';
     render(
-      <I18nextProvider i18n={i18n}>
-        <AppContext.Provider value={contextData}>
-          <Home />
-        </AppContext.Provider>
-      </I18nextProvider>
-    );
-
-    expect(screen.getByRole('heading')).toMatchSnapshot();
-  })
-
-  it('renders loading if fetching data failed', () => {
-    contextData.weather.error = 'some error';
-    render(
-      <I18nextProvider i18n={i18n}>
-        <AppContext.Provider value={contextData}>
-          <Home />
-        </AppContext.Provider>
-      </I18nextProvider>
+      <BrowserRouter>
+        <I18nextProvider i18n={i18n}>
+          <AppContext.Provider value={contextData}>
+            <Home />
+          </AppContext.Provider>
+        </I18nextProvider>
+      </BrowserRouter>
     );
 
     expect(screen.getByRole('heading')).toMatchSnapshot();

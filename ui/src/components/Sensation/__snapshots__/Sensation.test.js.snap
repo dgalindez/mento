@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Sensation renders correctly 1`] = `
+<div
+  class="container p-4"
+  role="main"
+>
+  <table
+    class="table borderless"
+  >
+    <thead>
+      <tr>
+        <th>
+          sensation.title
+        </th>
+        <th>
+          31
+           
+          ℃
+        </th>
+      </tr>
+    </thead>
+  </table>
+</div>
+`;
+
+exports[`Sensation renders loading if data is being fetched 1`] = `
+<div
+  aria-level="1"
+  class="columns loading"
+  role="heading"
+>
+  <div
+    class="control is-large is-loading"
+  >
+    <input
+      class="hidden"
+    />
+  </div>
+</div>
+`;
+
+exports[`Sensation renders loading if error 1`] = `
+<div
+  aria-level="1"
+  class="columns loading"
+  role="heading"
+>
+  <div
+    class="control is-large is-loading"
+  >
+    <input
+      class="hidden"
+    />
+  </div>
+</div>
+`;

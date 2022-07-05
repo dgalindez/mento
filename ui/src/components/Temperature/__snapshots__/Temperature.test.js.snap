@@ -1,0 +1,79 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Temperature renders correctly 1`] = `
+<div
+  class="container p-4"
+  role="main"
+>
+  <table
+    class="table borderless"
+  >
+    <thead>
+      <tr>
+        <th>
+          temperature.title
+        </th>
+        <th>
+          30
+           
+          ℃
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          temperature.max
+        </td>
+        <td>
+          32
+           
+          ℃
+        </td>
+      </tr>
+      <tr>
+        <td>
+          temperature.min
+        </td>
+        <td>
+          26
+           
+          ℃
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+`;
+
+exports[`Temperature renders loading if data is being fetched 1`] = `
+<div
+  aria-level="1"
+  class="columns loading"
+  role="heading"
+>
+  <div
+    class="control is-large is-loading"
+  >
+    <input
+      class="hidden"
+    />
+  </div>
+</div>
+`;
+
+exports[`Temperature renders loading if error 1`] = `
+<div
+  aria-level="1"
+  class="columns loading"
+  role="heading"
+>
+  <div
+    class="control is-large is-loading"
+  >
+    <input
+      class="hidden"
+    />
+  </div>
+</div>
+`;

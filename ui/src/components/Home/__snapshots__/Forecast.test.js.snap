@@ -2,7 +2,7 @@
 
 exports[`Forecast renders correctly 1`] = `
 <table
-  class="table m-4 mx-6"
+  class="table"
 >
   <thead>
     <tr>

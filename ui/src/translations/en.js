@@ -12,11 +12,17 @@ export const ENGLISH = {
     max: 'Max',
     min: 'Min',
   },
+  temperature: {
+    title: 'Temperature',
+    max: 'Max',
+    min: 'Min',
+  },
+  sensation: {
+    title: 'Feels like',
+  },
   home:  {
     tab: {
       temperature: 'Temperature',
-      max: 'Max temperature',
-      min: 'Min temperature',
       sensation: 'Feels Like',
       humidity: 'Humidity',
     },

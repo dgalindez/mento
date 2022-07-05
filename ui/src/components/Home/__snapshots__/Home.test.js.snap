@@ -76,35 +76,41 @@ exports[`Home renders humidity tab as active 1`] = `
 </div>
 `;
 
-exports[`Home renders loading if data is being fetched 1`] = `
+exports[`Home renders no city or country if not present 1`] = `
 <div
   aria-level="1"
-  class="columns"
+  class="tabs is-boxed is-large mt-4 mx-6"
   role="heading"
 >
-  <div
-    class="control is-large is-loading"
-  >
-    <input
-      class="hidden"
-    />
-  </div>
-</div>
-`;
-
-exports[`Home renders loading if fetching data failed 1`] = `
-<div
-  aria-level="1"
-  class="columns"
-  role="heading"
->
-  <div
-    class="control is-large is-loading"
-  >
-    <input
-      class="hidden"
-    />
-  </div>
+  <ul>
+    <li
+      class=""
+    >
+      <a
+        href="/temperature"
+      >
+        home.tab.temperature
+      </a>
+    </li>
+    <li
+      class="is-active"
+    >
+      <a
+        href="/sensation"
+      >
+        home.tab.sensation
+      </a>
+    </li>
+    <li
+      class=""
+    >
+      <a
+        href="/humidity"
+      >
+        home.tab.humidity
+      </a>
+    </li>
+  </ul>
 </div>
 `;
 

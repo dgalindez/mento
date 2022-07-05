@@ -14,26 +14,14 @@ const Home = () => {
     weather: {
       city,
       country,
-      error,
-      loading,
     },
   } = useContext(AppContext);
 
   const tabs = ['/temperature', '/sensation', '/humidity'];
   const { pathname = '' } = useLocation();
 
-  if (error || loading) {
-    return (
-      <div className="columns" role="heading" aria-level="1">
-        <div className="control is-large is-loading">
-          <input className="hidden" />
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <>
+    <div className="home">
       <div className="tabs is-boxed is-large mt-4 mx-6" role="heading" aria-level="1">
         <ul>
           {tabs.map((tab, index) => (
@@ -48,12 +36,12 @@ const Home = () => {
       </div>
       <div className="columns mx-6">
         <div className="column">
-          <span className="title">{city}, </span>
+          <span className="title">{city}{city ? ', ' : ''}</span>
           <span className="subtitle">{country}</span>
         </div>
         <Forecast />
       </div>
-    </>
+    </div>
   );
 };
 

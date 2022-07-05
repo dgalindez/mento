@@ -17,8 +17,8 @@ const Forecast = () => {
   } = useContext(AppContext);
 
   return (
-    <div className="column m-4 mx-6">
-      <table className="table m-4 mx-6">
+    <div className="column">
+      <table className="table">
         <thead>
           <tr>
             <th>{t('forecast.date')}</th>

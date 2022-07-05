@@ -4,7 +4,9 @@ import { useTranslation } from 'react-i18next';
 import { UNIT_SYMBOLS } from '../../utils/constants';
 import AppContext from '../AppContext';
 
-const TemperatureTab = () => {
+import './index.css';
+
+const Temperature = () => {
   const { t } = useTranslation();
   const {
     locale: {
@@ -12,18 +14,43 @@ const TemperatureTab = () => {
     },
     weather: {
       current,
+      error,
+      loading,
     },
   } = useContext(AppContext);
 
+  if (error || loading) {
+    return (
+      <div className="columns loading" role="heading" aria-level="1">
+        <div className="control is-large is-loading">
+          <input className="hidden" />
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="m-4 mx-6">
-      {t('home.tab.temperature')} {current.temperature} {UNIT_SYMBOLS[units]}
-      <br />
-      {t('home.tab.max')} {current.max} {UNIT_SYMBOLS[units]}
-      <br />
-      {t('home.tab.min')} {current.min} {UNIT_SYMBOLS[units]}
+    <div className="container p-4" role="main">
+      <table className="table borderless">
+        <thead>
+          <tr>
+            <th>{t('temperature.title')}</th>
+            <th>{current.temperature} {UNIT_SYMBOLS[units]}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{t('temperature.max')}</td>
+            <td>{current.max} {UNIT_SYMBOLS[units]}</td>
+          </tr>
+          <tr>
+            <td>{t('temperature.min')}</td>
+            <td>{current.min} {UNIT_SYMBOLS[units]}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   );
 };
 
-export default TemperatureTab;
+export default Temperature;
