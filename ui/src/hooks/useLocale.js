@@ -6,6 +6,8 @@ import { LOCALE } from '../utils/constants';
  * @typedef {Object} Locale
  * @property {string} locale - String locale
  * @property {Function} setLocale - Set Locale to user's preference
+ * @property {Function} setLocale - Set zip to user's selection
+ * @property {string} zip - String zip code
  */
 
 /**
@@ -15,6 +17,8 @@ import { LOCALE } from '../utils/constants';
  */
 const useLocale = () => {
   const [locale, setLocale] = useState(LOCALE.default);
+  const [units, setUnits] = useState(LOCALE.defaultUnits);
+  const [zip, setZip] = useState('');
 
   useEffect(() => {
     (async () => {
@@ -30,7 +34,11 @@ const useLocale = () => {
 
   return {
     locale,
-    setLocale
+    setLocale,
+    setUnits,
+    setZip,
+    units,
+    zip,
   };
 };
 

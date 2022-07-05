@@ -7,6 +7,7 @@ import { GEOLOCATION } from '../utils/constants';
  * @property {number} lat - Latitude for current location
  * @property {number} lon - Longitude for current location
  * @property {boolean} failed - If the geolocation data is not available
+ * @property {boolean} loaded - If geolocation request has gone through or not
  */
 
 /**
@@ -18,17 +19,20 @@ const useGeolocation = () => {
   const [lat, setLat] = useState(GEOLOCATION.defaultLatitude);
   const [lon, setLon] = useState(GEOLOCATION.defaultLongitude);
   const [failed, setFailed] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const success = ({ coords }) => {
     setLat(coords.latitude);
     setLon(coords.longitude);
     setFailed(false);
+    setLoading(false);
   };
 
   const failure = () => {
     setLat(GEOLOCATION.defaultLatitude);
     setLon(GEOLOCATION.defaultLongitude);
     setFailed(true);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -42,9 +46,10 @@ const useGeolocation = () => {
   }, []);
 
   return {
-    lat,
-    lon,
     failed,
+    lat,
+    loading,
+    lon,
   };
 };
 

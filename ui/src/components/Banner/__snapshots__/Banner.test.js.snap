@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Banner renders if failed 1`] = `
+<article
+  class="message is-warning"
+>
+  <div
+    class="message-header"
+  >
+    <p>
+      banner.loading.failed.title
+    </p>
+    <button
+      aria-label="delete"
+      class="delete"
+    />
+  </div>
+  <div
+    class="message-body"
+  >
+    banner.loading.failed.body
+  </div>
+</article>
+`;
+
+exports[`Banner renders if weather is not loading and has error 1`] = `
+<article
+  class="message is-error"
+>
+  <div
+    class="message-header"
+  >
+    <p>
+      error
+    </p>
+    <button
+      aria-label="delete"
+      class="delete"
+    />
+  </div>
+</article>
+`;

@@ -43,7 +43,7 @@ const useWeatherApi = () => {
    * @param [string] units - Units for data, standard, metric or imperial
    * @return [Promise] - Promise to obtain and set data
    */
-  const getLocationData = async (lat, lon, units) => {
+  const getLocationData = async (lat, lon, units = 'metric') => {
     const url = `${WEATHER.url}/weather?lat=${lat}&lon=${lon}&units=${units}`;
     return getAndSetData(url);
   };

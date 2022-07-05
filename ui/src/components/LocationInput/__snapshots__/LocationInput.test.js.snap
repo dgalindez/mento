@@ -1,56 +1,106 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders correctly 1`] = `
-Object {
-  "debug": [Function],
-  "findAllByAltText": [Function],
-  "findAllByDisplayValue": [Function],
-  "findAllByLabelText": [Function],
-  "findAllByPlaceholderText": [Function],
-  "findAllByRole": [Function],
-  "findAllByTestId": [Function],
-  "findAllByText": [Function],
-  "findAllByTitle": [Function],
-  "findByAltText": [Function],
-  "findByDisplayValue": [Function],
-  "findByLabelText": [Function],
-  "findByPlaceholderText": [Function],
-  "findByRole": [Function],
-  "findByTestId": [Function],
-  "findByText": [Function],
-  "findByTitle": [Function],
-  "getAllByAltText": [Function],
-  "getAllByDisplayValue": [Function],
-  "getAllByLabelText": [Function],
-  "getAllByPlaceholderText": [Function],
-  "getAllByRole": [Function],
-  "getAllByTestId": [Function],
-  "getAllByText": [Function],
-  "getAllByTitle": [Function],
-  "getByAltText": [Function],
-  "getByDisplayValue": [Function],
-  "getByLabelText": [Function],
-  "getByPlaceholderText": [Function],
-  "getByRole": [Function],
-  "getByTestId": [Function],
-  "getByText": [Function],
-  "getByTitle": [Function],
-  "logTestingPlaygroundURL": [Function],
-  "queryAllByAltText": [Function],
-  "queryAllByDisplayValue": [Function],
-  "queryAllByLabelText": [Function],
-  "queryAllByPlaceholderText": [Function],
-  "queryAllByRole": [Function],
-  "queryAllByTestId": [Function],
-  "queryAllByText": [Function],
-  "queryAllByTitle": [Function],
-  "queryByAltText": [Function],
-  "queryByDisplayValue": [Function],
-  "queryByLabelText": [Function],
-  "queryByPlaceholderText": [Function],
-  "queryByRole": [Function],
-  "queryByTestId": [Function],
-  "queryByText": [Function],
-  "queryByTitle": [Function],
-}
+exports[`LocationInput renders correctly 1`] = `
+<div>
+  <div
+    class="columns m-4 mx-6"
+  >
+    <div
+      class="field column is-one-quarter"
+    >
+      <label
+        class="label"
+      >
+        input.zipLabel
+      </label>
+      <div
+        class="control"
+      >
+        <input
+          class="input"
+          placeholder="input.zipLabel"
+          type="text"
+          value=""
+        />
+      </div>
+    </div>
+    <div
+      class="field column is-one-quarter"
+    >
+      <label
+        class="label"
+      >
+        input.localeLabel
+      </label>
+      <div
+        class="control"
+      >
+        <input
+          class="input"
+          placeholder="input.localeLabel"
+          type="text"
+          value=""
+        />
+      </div>
+    </div>
+    <div
+      class="field column is-one-quarter"
+    >
+      <label
+        class="label"
+      >
+        input.unitsLabel
+      </label>
+      <div
+        class="control"
+      >
+        <div
+          class="select"
+        >
+          <select>
+            <option>
+              input.select.standard
+            </option>
+            <option>
+              input.select.metric
+            </option>
+            <option>
+              input.select.imperial
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button
+    class="button is-medium is-success ml-6 mb-6"
+    disabled=""
+  >
+    input.button
+  </button>
+</div>
+`;
+
+exports[`LocationInput updates selected units 1`] = `
+<option>
+  input.select.metric
+</option>
+`;
+
+exports[`LocationInput updates zip and locale 1`] = `
+<input
+  class="input"
+  placeholder="input.zipLabel"
+  type="text"
+  value=""
+/>
+`;
+
+exports[`LocationInput updates zip and locale 2`] = `
+<input
+  class="input"
+  placeholder="input.localeLabel"
+  type="text"
+  value=""
+/>
 `;

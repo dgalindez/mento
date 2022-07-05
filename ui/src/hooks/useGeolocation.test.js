@@ -28,6 +28,7 @@ describe('useGeolocation', () => {
     expect(result.current.lat).toEqual(coords.latitude);
     expect(result.current.lon).toEqual(coords.longitude);
     expect(result.current.failed).toBeFalsy();
+    expect(result.current.loading).toBeFalsy();
   });
 
   it('Returns defaults and failed if geolocation is not available', () => {
@@ -37,6 +38,7 @@ describe('useGeolocation', () => {
     expect(result.current.lat).toEqual(GEOLOCATION.defaultLatitude);
     expect(result.current.lon).toEqual(GEOLOCATION.defaultLongitude);
     expect(result.current.failed).toBeTruthy();
+    expect(result.current.loading).toBeFalsy();
   });
 
   it('Returns defaults and failed if geolocation was denied', () => {
@@ -47,5 +49,6 @@ describe('useGeolocation', () => {
     expect(result.current.lat).toEqual(GEOLOCATION.defaultLatitude);
     expect(result.current.lon).toEqual(GEOLOCATION.defaultLongitude);
     expect(result.current.failed).toBeTruthy();
+    expect(result.current.loading).toBeFalsy();
   });
 });

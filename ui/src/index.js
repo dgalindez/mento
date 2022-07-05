@@ -13,6 +13,8 @@ import detector from 'i18next-browser-languagedetector';
 import { ENGLISH } from './translations/en';
 import reportWebVitals from './reportWebVitals';
 
+import { ContextComponent } from './components/AppContext';
+import Banner from './components/Banner';
 import Details from './components/Details';
 import Home from './components/Home';
 import LocationInput from './components/LocationInput';
@@ -31,17 +33,18 @@ i18n
       escapeValue: false,
     },
   });
-// TODO: Add context for Geolocation, locale
-// TODO: Add context for Weather Data
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <BrowserRouter>
+  <ContextComponent>
+    <Banner />
     <LocationInput />
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/details" element={<Details />} />
-    </Routes>
-  </BrowserRouter>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/details" element={<Details />} />
+      </Routes>
+    </BrowserRouter>
+  </ContextComponent>
 );
 
 // If you want to start measuring performance in your app, pass a function
